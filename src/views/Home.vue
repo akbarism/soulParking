@@ -1,11 +1,19 @@
 <template>
   <div class="home">
-    <sideBar />
-    <div class="main-menu">
+    <sideBar v-bind:isBerger="isBerger" />
+    <div class="main-menu full-width">
       <nav>
-        <div class="left">
-          <i class="fas fa-angle-left"></i>
-          <p>Sembunyikan Menu</p>
+        <div class="left" @click="slide">
+          <div v-if="isBerger == false">
+            <div class="hide-menu">
+              <i class="fas fa-angle-left"></i>
+              <p>Sembunyikan Menu</p>
+            </div>
+            <i class="fas fa-bars sauce"></i>
+          </div>
+          <div v-else>
+            <i class="fas fa-bars berger"></i>
+          </div>
         </div>
         <div class="right">
           <div class="reg">
@@ -25,18 +33,20 @@
           </div>
         </div>
       </nav>
-      <Dashboard />
-      <Gaskir />
+      <Dashboard v-bind:isStretch="isStretch" v-bind:isPuck="isPuck" />
+      <Gaskir v-bind:stretced="stretced" v-bind:stretching="stretching" />
+      <notFound />
       <Footer />
     </div>
   </div>
 </template>
 
 <script>
-import sideBar from "../components/sidebar.vue";
-import Dashboard from "../components/Dashboard.vue";
-import Footer from "../components/Footer.vue";
-import Gaskir from "../components/gaskir.vue";
+import sideBar from "../components/base_/sidebar.vue";
+import Dashboard from "../components/base_/Dashboard";
+import Footer from "../components/module_/Footer";
+import Gaskir from "../components/base_/gaskir";
+import notFound from "../components/base_/notFound.vue";
 
 export default {
   name: "Home",
@@ -44,17 +54,42 @@ export default {
     sideBar,
     Dashboard,
     Gaskir,
+    notFound,
     Footer
+  },
+  data() {
+    return {
+      isStretch: false,
+      isPuck: false,
+      isBerger: false,
+      stretching: false,
+      stretced: false
+    };
+  },
+  methods: {
+    slide() {
+      document.querySelector(".sidebar").classList.toggle("slider");
+      document.querySelector(".main-menu").classList.toggle("full-width");
+      this.isStretch = !this.isStretch;
+      this.isBerger = !this.isBerger;
+      this.isPuck = !this.isPuck;
+      this.stretching = !this.stretching;
+      this.stretced = !this.stretced;
+    }
   }
 };
 </script>
 <style lang="scss" scoped>
 .home {
+  position: relative;
   display: flex;
   width: 100%;
-
+  .full-width {
+    width: 83vw;
+    margin-left: 230px;
+  }
   .main-menu {
-    width: 83%;
+    width: 100%;
     nav {
       display: flex;
       justify-content: space-between;
@@ -68,9 +103,20 @@ export default {
         display: flex;
         color: #ffffff;
         margin-left: 15px;
-        p {
-          margin-left: 5px;
-          margin-top: -2px;
+        cursor: pointer;
+        .hide-menu {
+          display: flex;
+          p {
+            margin-left: 5px;
+            margin-top: -2px;
+          }
+        }
+        .sauce {
+          display: none;
+        }
+        .berger {
+          font-size: 30px;
+          color: #f3c249;
         }
       }
       .right {
@@ -90,7 +136,7 @@ export default {
             display: flex;
             align-items: center;
             justify-content: center;
-            background: #e8933d;
+            background: #f3c249;
             height: 30px;
             width: 30px;
             color: #ffffff;
@@ -118,6 +164,40 @@ export default {
           }
         }
       }
+    }
+  }
+}
+@media only screen and(max-width: 600px) {
+  .home {
+    .main-menu {
+      width: 100%;
+      nav {
+        .left {
+          margin-right: 10px;
+          .hide-menu {
+            display: none;
+          }
+          .sauce {
+            display: block;
+            font-size: 30px;
+            color: #f3c249;
+          }
+        }
+        .right {
+          .reg {
+            margin-right: 20px;
+          }
+          .profile {
+            .info {
+              display: none;
+            }
+          }
+        }
+      }
+    }
+    .full-width {
+      width: 100%;
+      margin-left: 0;
     }
   }
 }

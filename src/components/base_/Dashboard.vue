@@ -4,7 +4,7 @@
       <h1>Dashboard</h1>
     </div>
     <section class="data-1">
-      <div class="card-ppl">
+      <div class="card-ppl" v-bind:class="{ stretcy: isStretch }">
         <div class="nomine">
           <section class="count">
             <h5>KEDATANGAN</h5>
@@ -12,7 +12,7 @@
           </section>
           <section class="icon">
             <img
-              src="../assets/img/fds.svg"
+              src="../../assets/img/fds.svg"
               alt="icon"
               height="100px"
               width="100px"
@@ -23,7 +23,7 @@
           <p class="grn"><b>+30%</b> dari minggu lalu</p>
         </div>
       </div>
-      <div class="card-ppl">
+      <div class="card-ppl" v-bind:class="{ stretcy: isStretch }">
         <div class="nomine">
           <section class="count">
             <h5>PJP LAMA</h5>
@@ -31,7 +31,7 @@
           </section>
           <section class="icon">
             <img
-              src="../assets/img/refresh.svg"
+              src="../../assets/img/refresh.svg"
               alt="icon"
               height="100px"
               width="100px"
@@ -42,7 +42,7 @@
           <p class="grn"><b>+20%</b> dari minggu lalu</p>
         </div>
       </div>
-      <div class="card-ppl">
+      <div class="card-ppl " v-bind:class="{ stretcy: isStretch }">
         <div class="nomine">
           <section class="count">
             <h5>PJP BARU</h5>
@@ -50,7 +50,7 @@
           </section>
           <section class="icon">
             <img
-              src="../assets/img/plus.svg"
+              src="../../assets/img/plus.svg"
               alt="icon"
               height="100px"
               width="100px"
@@ -61,7 +61,7 @@
           <p class="red"><b>-5%</b> dari minggu lalu</p>
         </div>
       </div>
-      <div class="card-ppl">
+      <div class="card-ppl" v-bind:class="{ stretcy: isStretch }">
         <div class="nomine">
           <section class="count">
             <h5>KELUAR</h5>
@@ -69,7 +69,7 @@
           </section>
           <section class="icon">
             <img
-              src="../assets/img/exit.svg"
+              src="../../assets/img/exit.svg"
               alt="icon"
               height="100px"
               width="100px"
@@ -82,38 +82,68 @@
       </div>
     </section>
     <section class="data-2">
-      <div class="card-data">
+      <div class="card-data" v-bind:class="{ puck: isPuck }">
         <h4>TOTAL PEMASUKAN</h4>
         <section class="income">
           <h1>RP. 1.500.000</h1>
           <p class="grn"><b>+30%</b> dari bulan lalu</p>
         </section>
-        <section class="cart"></section>
+        <section class="cart">
+          <column-chart
+            height="100%"
+            :data="income"
+            :colors="blue"
+          ></column-chart>
+        </section>
         <div class="footer">
           <p class="grn"><b>+30%</b> dari minggu lalu</p>
         </div>
       </div>
-      <div class="card-data">
+      <div class="card-data" v-bind:class="{ puck: isPuck }">
         <h4>MEMBERSHIP</h4>
         <section class="income">
           <h1>1.200</h1>
           <p class="red"><b>-10%</b> dari bulan lalu</p>
         </section>
-        <section class="cart"></section>
+        <section class="cart">
+          <column-chart
+            height="100%"
+            width="100%"
+            :data="membership"
+            :colors="blue"
+          ></column-chart>
+        </section>
         <div class="footer">
           <p class="red"><b>-10%</b> dari minggu lalu</p>
         </div>
       </div>
-      <div class="card-data">
+      <div class="card-data" v-bind:class="{ puck: isPuck }">
         <h4>METODE PEMBAYARAN</h4>
-        <section class="cart"></section>
+        <section class="cart">
+          <pie-chart
+            height="100%"
+            width="100%"
+            :legend="legend"
+            :donut="true"
+            :data="payment"
+            :colors="payColor"
+          ></pie-chart>
+        </section>
         <div class="footer-2">
           <p class="grn"><b>+30%</b> dari minggu lalu</p>
         </div>
       </div>
-      <div class="card-data">
+      <div class="card-data" v-bind:class="{ puck: isPuck }">
         <h4>TRAFIK SITUS</h4>
-        <section class="cart"></section>
+        <section class="cart">
+          <pie-chart
+            height="100%"
+            width="100%"
+            legend="left"
+            :data="traffic"
+            :colors="payColor"
+          ></pie-chart>
+        </section>
         <div class="footer-2">
           <p class="grn"><b>+30%</b> dari minggu lalu</p>
         </div>
@@ -124,7 +154,54 @@
 
 <script>
 export default {
-  name: "Dashboard"
+  name: "Dashboard",
+  props: ["isStretch", "isPuck"],
+  data() {
+    return {
+      income: {
+        JAN: 375,
+        FEB: 800,
+        MAR: 1200,
+        APR: 1125,
+        MEI: 800,
+        JUN: 1400,
+        JUL: 500,
+        AGU: 1150,
+        SEP: 350,
+        OKT: 780,
+        NOV: 1000,
+        DES: 1600
+      },
+      membership: {
+        JAN: 300,
+        FEB: 800,
+        MAR: 1000,
+        APR: 900,
+        MEI: 800,
+        JUN: 1100,
+        JUL: 400,
+        AGU: 500,
+        SEP: 800,
+        OKT: 950,
+        NOV: 1000,
+        DES: 800
+      },
+      traffic: {
+        OrganicSearch: "10%",
+        Direct: "25%",
+        Social: "55%",
+        Other: "10%"
+      },
+      payment: {
+        CASH: 800,
+        GOPAY: 800,
+        MEMBERSHIP: 600
+      },
+      payColor: ["#5BBF78", "#5FA2F3", "#F3C249"],
+      blue: ["#5FA2F3"],
+      legend: "left"
+    };
+  }
 };
 </script>
 
@@ -150,6 +227,7 @@ export default {
       box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.25);
       box-sizing: border-box;
       overflow: hidden;
+      transition: 0.2s all;
       .nomine {
         padding: 10px;
         display: flex;
@@ -191,6 +269,9 @@ export default {
         }
       }
     }
+    .stretcy {
+      width: 300px !important;
+    }
   }
   .data-2 {
     width: 100%;
@@ -206,6 +287,7 @@ export default {
       border-radius: 10px;
       margin: 30px 0 0 30px;
       box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.25);
+      transition: 0.5s all;
       h4 {
         display: flex;
         width: 100%;
@@ -228,7 +310,8 @@ export default {
       .cart {
         width: 100%;
         height: 200px;
-        background: #82bf96;
+        box-sizing: border-box;
+        padding: 2px;
       }
       .footer {
         display: none;
@@ -245,12 +328,18 @@ export default {
         display: none;
       }
     }
+    .puck {
+      width: 630px;
+    }
   }
 }
 @media only screen and (max-width: 600px) {
   .container {
+    align-items: center;
     .data-1 {
+      justify-content: center;
       .card-ppl {
+        width: 300px !important;
         .footer {
           display: flex;
           justify-content: center;
@@ -258,10 +347,12 @@ export default {
       }
     }
     .data-2 {
+      justify-content: center;
       .card-data {
-        width: 240px;
-        height: 190px;
+        width: 300px !important;
+        height: 210px;
         padding: 10px 0 0 0;
+        box-sizing: border-box;
         overflow: hidden;
         h4 {
           justify-content: center;
@@ -281,7 +372,7 @@ export default {
           }
         }
         .cart {
-          height: 100px;
+          height: 120px;
           margin-top: 10px;
         }
         .footer {

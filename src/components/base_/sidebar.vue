@@ -1,7 +1,7 @@
 <template>
-  <aside>
+  <aside class="sidebar slider">
     <nav>
-      <img src="../assets/img/logo.png" alt="logo" />
+      <img src="../../assets/img/logo.png" alt="logo" />
       <h1>Management System</h1>
     </nav>
     <section class="dashboard" @click="dashboard">
@@ -53,23 +53,7 @@
         Dashboard
       </div>
     </section>
-    <section class="sub-menu-a" @click="report">
-      <div class="list-menu-a change-a">
-        <div class="for-icon"><i class="fas fa-file-invoice"></i></div>
-        Pelaporan
-      </div>
-      <div class="rot ate">
-        <i class="fas fa-caret-down"></i>
-      </div>
-    </section>
-    <ul class="list-a hide">
-      <li><p>Laporan Trafik</p></li>
-      <li><p>Laporan Pendapatan</p></li>
-      <li><p>Pengaduan</p></li>
-      <li><p>Laporan Member</p></li>
-      <li><p>Laporan Gaskir</p></li>
-      <li><p>Laporan Aplikasi</p></li>
-    </ul>
+    <Report />
     <section class="sub-menu-b" @click="setLoc">
       <div class="list-menu-b" v-bind:class="{ loca: localis == 'loc' }">
         <div class="for-icon"><i class="fas fa-cog"></i></div>
@@ -105,20 +89,7 @@
         <p>Pengaturan Pengguna</p>
       </li>
     </ul>
-    <section class="sub-menu-c" @click="userAd">
-      <div class="list-menu-c change-c">
-        <div class="for-icon"><i class="fas fa-user"></i></div>
-        Sistem Admin
-      </div>
-      <div class="roq qte">
-        <i class="fas fa-caret-down"></i>
-      </div>
-    </section>
-    <ul class="list-c hide-c">
-      <li><p>Lokir</p></li>
-      <li><p>Pengguna</p></li>
-      <li><p>Hardware</p></li>
-    </ul>
+    <adminSystem />
     <section class="sub-menu-d">
       <div class="list-menu-d">
         <div class="for-icon"><i class="fas fa-user-circle"></i></div>
@@ -129,7 +100,7 @@
       <div class="list-menu-e">
         <div class="for-icon">
           <img
-            src="../assets/img/logout.svg"
+            src="../../assets/img/logout.svg"
             alt="dashboard"
             height="15px"
             width="15px"
@@ -138,77 +109,115 @@
         Keluar
       </div>
     </section>
+    <section class="hide-menu" @click="slide">
+      <i class="fas fa-angle-left"></i>
+      <p>Sembunyikan Menu</p>
+    </section>
   </aside>
 </template>
 
 <script>
+import Report from "../base_/report.vue";
+import adminSystem from "../base_/adminSystem.vue";
+
 export default {
   name: "sideBar",
+  components: {
+    Report,
+    adminSystem
+  },
   data() {
     return {
       isActive: "",
-      localis: "board"
+      localis: "board",
+      isBerger: true
     };
   },
   methods: {
+    slide() {
+      document.querySelector(".sidebar").classList.toggle("slider");
+      document.querySelector(".main-menu").classList.toggle("full-width");
+      this.isBerger = !this.isBerger;
+    },
     gaskir() {
       this.isActive = "gaskir";
       this.localis = "loc";
       document.querySelector(".container").style.display = "none";
       document.querySelector(".gaskir-page").style.display = "flex";
+      document.querySelector(".noFound").style.display = "none";
     },
     lokir() {
       this.isActive = "lokir";
       this.localis = "loc";
+      document.querySelector(".noFound").style.display = "flex";
+      document.querySelector(".container").style.display = "none";
+      document.querySelector(".gaskir-page").style.display = "none";
     },
     tarif() {
       this.isActive = "tarif";
       this.localis = "loc";
+      document.querySelector(".noFound").style.display = "flex";
+      document.querySelector(".container").style.display = "none";
+      document.querySelector(".gaskir-page").style.display = "none";
     },
     sift() {
       this.isActive = "sift";
       this.localis = "loc";
+      document.querySelector(".noFound").style.display = "flex";
+      document.querySelector(".container").style.display = "none";
+      document.querySelector(".gaskir-page").style.display = "none";
     },
     produk() {
       this.isActive = "produk";
       this.localis = "loc";
+      document.querySelector(".noFound").style.display = "flex";
+      document.querySelector(".container").style.display = "none";
+      document.querySelector(".gaskir-page").style.display = "none";
     },
     bleach() {
       this.isActive = "bleach";
       this.localis = "loc";
+      document.querySelector(".noFound").style.display = "flex";
+      document.querySelector(".container").style.display = "none";
+      document.querySelector(".gaskir-page").style.display = "none";
     },
     aktivasi() {
       this.isActive = "aktivasi";
       this.localis = "loc";
+      document.querySelector(".noFound").style.display = "flex";
+      document.querySelector(".container").style.display = "none";
+      document.querySelector(".gaskir-page").style.display = "none";
     },
     set() {
       this.isActive = "set";
       this.localis = "loc";
-    },
-    report() {
-      document.querySelector(".list-a").classList.toggle("hide");
-      document.querySelector(".rot").classList.toggle("ate");
+      document.querySelector(".noFound").style.display = "flex";
+      document.querySelector(".container").style.display = "none";
+      document.querySelector(".gaskir-page").style.display = "none";
     },
     setLoc() {
       document.querySelector(".list-b").classList.toggle("hide-b");
       document.querySelector(".ros").classList.toggle("ste");
-    },
-    userAd() {
-      document.querySelector(".list-c").classList.toggle("hide-c");
-      document.querySelector(".roq").classList.toggle("qte");
+      // document.querySelector(".noFound").style.display = "flex";
     },
     dashboard() {
       this.localis = "board";
+      this.isActive = "";
       document.querySelector(".container").style.display = "flex";
       document.querySelector(".gaskir-page").style.display = "none";
+      document.querySelector(".noFound").style.display = "none";
     }
   }
 };
 </script>
 
 <style lang="scss" scoped>
-aside {
-  width: 17%;
+.sidebar {
+  position: absolute;
+  left: -230px;
+  transition: 0.5s;
+  width: 230px;
+  height: 100%;
   background: white;
   box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.25);
   z-index: 1;
@@ -216,6 +225,7 @@ aside {
     height: 50px;
     background: #ffffff;
     padding: 10px;
+
     h1 {
       position: absolute;
       font-size: 16px;
@@ -238,33 +248,8 @@ aside {
         svg {
           height: 13px;
           width: 15px;
-          //   fill: #e8933d;
         }
       }
-    }
-  }
-  .sub-menu-a {
-    display: flex;
-    justify-content: space-between;
-    background: #f2f3f5;
-    padding: 10px 15px;
-    cursor: pointer;
-    .list-menu-a {
-      color: #e8933d;
-      display: flex;
-      .for-icon {
-        width: 25px;
-      }
-    }
-    .rot {
-      transform: rotate(180deg);
-      transition: 0.5s;
-    }
-    .ate {
-      transform: none;
-    }
-    .change-a {
-      color: #000000;
     }
   }
   .sub-menu-b {
@@ -287,30 +272,7 @@ aside {
       transform: none;
     }
   }
-  .sub-menu-c {
-    display: flex;
-    justify-content: space-between;
-    background: #f2f3f5;
-    cursor: pointer;
-    padding: 10px 15px;
-    .list-menu-c {
-      display: flex;
-      color: #e8933d;
-      .for-icon {
-        width: 25px;
-      }
-    }
-    .roq {
-      transform: rotate(180deg);
-      transition: 0.5s;
-    }
-    .qte {
-      transform: none;
-    }
-    .change-c {
-      color: #000000;
-    }
-  }
+
   .sub-menu-d {
     display: flex;
     justify-content: space-between;
@@ -339,23 +301,8 @@ aside {
       }
     }
   }
-  .list-a {
-    position: relative;
-    list-style: none;
-    transition: 0.9s;
-    li {
-      background: #ffffff;
-      padding: 5px;
-      color: #bababa;
-      font-size: 15px;
-      p {
-        padding-left: 35px;
-      }
-    }
-    li:hover {
-      background: #f3c249;
-      color: white;
-    }
+  .hide-menu {
+    display: none;
   }
   .list-b {
     list-style: none;
@@ -366,6 +313,8 @@ aside {
       color: #bababa;
       font-size: 15px;
       transition: 0.5s;
+      cursor: pointer;
+
       p {
         padding-left: 35px;
       }
@@ -375,41 +324,16 @@ aside {
       color: white;
     }
   }
-  .list-c {
-    list-style: none;
-    transition: 1s;
-    margin-bottom: 25px;
-    li {
-      background: #ffffff;
-      padding: 5px;
-      color: #bababa;
-      font-size: 15px;
-      transition: 0.5s;
-      p {
-        padding-left: 35px;
-      }
-    }
-    li:hover {
-      background: #f3c249;
-      color: white;
-    }
-  }
-  .hide {
-    opacity: 0;
-    overflow: hidden;
-    height: 0;
-    transition: 0.5s;
-  }
+
   .hide-b {
     opacity: 0;
     overflow: hidden;
     height: 0;
   }
-  .hide-c {
-    opacity: 0;
-    overflow: hidden;
-    height: 0;
-  }
+}
+.slider {
+  left: 0;
+  transition: 0.5s;
 }
 .active {
   background: #f3c249 !important;
@@ -419,6 +343,19 @@ aside {
   color: #e8933d !important;
   svg {
     fill: #e8933d !important;
+  }
+}
+@media only screen and (max-width: 600px) {
+  .sidebar {
+    width: 230px;
+    .hide-menu {
+      display: flex;
+      padding: 15px;
+      p {
+        margin-left: 5px;
+        margin-top: -2px;
+      }
+    }
   }
 }
 </style>
